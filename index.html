@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button After Each Sentence</title>
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/style2.css">
+</head>
+
+<body>
+    <nav class="nav1">
+        <h3>Вставьте текст для озвучки (DE):</h3>
+        <div class="divnav2">
+            <button onclick="speak(window.getSelection())">Озвучить выделенное</button>
+            <button onclick="speakWithPause(window.getSelection())">Озвучить всё с паузами</button>
+            <button onclick="countWords()">Подсчёт слов</button>
+            <a href="https://translate.google.com/" target="_blank">Translate.Google</a>
+            <a href="https://downsub.com/" target="_blank">Субтитры из видео</a>
+        </div>
+    </nav>
+
+    <div class="div1">
+
+        <div class="div2">
+            <textarea class="textarea1" name="w3review" rows="10" cols="60"></textarea>
+            <button onclick="split2()">Split... \n</button>
+            <button onclick="split3()">Split... .</button>
+            <button onclick="clearP()">Clear...</button>
+        </div>
+
+        <div class="div3">
+            <textarea class="textarea2" name="w3review" rows="10" cols="60"></textarea>
+            <button onclick="">...</button>
+            <button onclick="">...</button>
+        </div>
+        
+        <br>
+
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div class="container" id="card-container">
+        <!-- Карточки будут добавляться сюда -->
+    </div>
+
+    <script src="script/script.js"></script>
+    <script src="script/script2.js"></script>
+</body>
+</html>
