@@ -27,3 +27,4 @@ function addNewArray(nameSelector){
     var myDiv = document.querySelector(nameSelector);
     myDiv.appendChild(newTextarea1);
 }
+

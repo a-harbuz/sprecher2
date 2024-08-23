@@ -75,7 +75,7 @@ function splitt(arg) { //Разделяет текст на строки
 }  
 // =================================================================
 function split2old() { //Разделяет текст на строки (\n)
-    clearP(); //очищаем экран
+    clearP(); //очищаем экран от карточек
     // в окошке слева
     let textArea = document.querySelector('.textarea1');
     let words = textArea.value.split('\n'); // \n .
@@ -97,47 +97,67 @@ function split2old() { //Разделяет текст на строки (\n)
 }  
 
 function split2() { //Разделяет текст на строки (\n)
-    clearP(); //очищаем экран
+    clearP(); //очищаем экран от карточек
     let textArea1 = document.querySelector('.textarea1');
     let wordsF = textArea1.value.split('\n');
     let textArea2 = document.querySelector('.textarea2');
     let wordsB = textArea2.value.split('\n');
 
-    for (let i=0; i<wordsF.length; i++){
+    for (let i = 0; i < wordsF.length; i++){
         // console.log(wordsF[i] + '   ' + wordsB[i]);
+        // const combobox = document.getElementById('myCombobox').value;
+        // if (combobox == 'var.2') {
+        //     addCardsV2(wordsF[i], wordsB[i]);
+        // } else {
+        //     addCards(wordsF[i], wordsB[i]);
+        // }
         addCards(wordsF[i], wordsB[i]);
-    }
-
+    }    
 } 
 
 function split3old() { //Разделяет текст на строки (.)
-    clearP(); //очищаем экран
+    clearP(); //очищаем экран от карточек
     let textArea = document.querySelector('.textarea1');
     let words = textArea.value.split('.'); // \n .
-    for (let i=0; i<words.length; i++){
-        addP('.div2',words[i],i);
+    for (let i = 0; i < words.length; i++){
+        addP('.div2', words[i], i);
     }
 
     textArea = document.querySelector('.textarea2');
     words = textArea.value.split('\n');
-    for (let i=0; i<words.length; i++){
-        addP('.div3',words[i],i);
+    for (let i = 0; i < words.length; i++){
+        addP('.div3', words[i], i);
     }
 }
 
 function split3() { //Разделяет текст на строки (.)
-    clearP(); //очищаем экран
+    clearP(); //очищаем экран от карточек
     let textArea1 = document.querySelector('.textarea1');
-    let wordsF = textArea1.value.split('.');
+    let wordsF = textArea1.value.replace(/\s+/g, ' ').split('.');
     let textArea2 = document.querySelector('.textarea2');
-    let wordsB = textArea2.value.split('.');
+    let wordsB = textArea2.value.replace(/\s+/g, ' ').split('.');
 
-    for (let i=0; i<wordsF.length; i++){
+    for (let i = 0; i < wordsF.length; i++){
         // console.log(wordsF[i] + '   ' + wordsB[i]);
-        addCards(wordsF[i], wordsB[i]);
+        addCards(wordsF[i] + '.', wordsB[i] + '.');
     }
+}
 
-} 
+function split4() { //Разделяет текст на строки (.)
+    let textArea1 = document.querySelector('.textarea1');
+    let wordsF = textArea1.value.replace(/\s+/g, ' ').split('.');
+    // let textArea2 = document.querySelector('.textarea2');
+    // let wordsB = textArea2.value.replace(/\s+/g, ' ').split('.');
+
+    //очищаем textarea1 & 2
+    textArea1.value = '';
+    textArea2.value = '';
+
+    for (let i = 0; i < wordsF.length; i++){
+        //addCards(wordsF[i] + '.', wordsB[i] + '.');
+        textArea1.value += wordsF[i].trimStart() + '.' + '\n';
+    }
+}
 // ==========================================================================
  
 function addP(nameSelector,newTxt,i){
@@ -165,7 +185,6 @@ function addP(nameSelector,newTxt,i){
     // Добавление нового элемента <p> в блок <div>
     myDiv.appendChild(newParagraph);
     //myDiv.append(newParagraph, newParagraph1);
-
 }
 
 function clearP(){
@@ -230,9 +249,46 @@ function addCards(textFront, textBack) {
         <div class="front">
             <span>${textFront}</span>
             <button class="speak" onclick="speak('${textFront}')">🔊</button>
+            <button class="close-btn">&times;</button>
         </div>
         <div class="back">
             <span>${textBack}</span>
+        </div>
+    `;
+    card.addEventListener('click', function() {
+        card.classList.toggle('flipped');
+    });
+    // Добавляем событие для удаления карточки
+    card.querySelector('.close-btn').addEventListener('click', function(event) {
+        event.stopPropagation();  // Предотвращаем переворот карточки
+        container.removeChild(card);  // Удаляем карточку
+    });
+    
+    container.appendChild(card);
+    //<button class="speak" onclick="speak('${textBack}')">🔊</button>
+
+    // Добавление обработчика события click для кнопки speak
+    const speakButton = card.querySelector('.speak');
+    speakButton.addEventListener('click', function(event) {
+        event.stopPropagation(); // предотвращает всплытие события click
+    });
+}
+
+// ==========================================================================
+function addCardsV2(textFront, textBack) {
+    // var.2.
+    const container = document.getElementById('card-container');
+    
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.setAttribute('data-word', textFront);
+    card.setAttribute('data-translation', textBack);
+    card.innerHTML = `
+        <div class="frontV2">
+            <span>${textBack}</span>
+            <br>
+            <span>${textFront}</span>
+            <button class="speak" onclick="speak('${textFront}')">🔊</button>
         </div>
     `;
     card.addEventListener('click', function() {
@@ -248,3 +304,4 @@ function addCards(textFront, textBack) {
         event.stopPropagation(); // предотвращает всплытие события click
     });
 }
+// ==========================================================================
