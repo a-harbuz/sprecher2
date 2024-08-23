@@ -249,7 +249,7 @@ function addCards(textFront, textBack) {
         <div class="front">
             <span>${textFront}</span>
             <button class="speak" onclick="speak('${textFront}')">🔊</button>
-            <button class="close-btn">&times</button>
+            <button class="close-btn">x</button>
         </div>
         <div class="back">
             <span>${textBack}</span>
