@@ -249,12 +249,14 @@ function addCards(textFront, textBack) {
         <div class="front">
             <span>${textFront}</span>
             <button class="speak" onclick="speak('${textFront}')">🔊</button>
-            <button class="close-btn">x</button>
+            <button class="close-btn">&times</button>
         </div>
         <div class="back">
             <span>${textBack}</span>
         </div>
     `;
+    //<button class="speak" onclick="speak('${textBack}')">🔊</button>
+    
     card.addEventListener('click', function() {
         card.classList.toggle('flipped');
     });
@@ -265,7 +267,6 @@ function addCards(textFront, textBack) {
     });
     
     container.appendChild(card);
-    //<button class="speak" onclick="speak('${textBack}')">🔊</button>
 
     // Добавление обработчика события click для кнопки speak
     const speakButton = card.querySelector('.speak');
