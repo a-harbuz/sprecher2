@@ -10,7 +10,12 @@
 
 <body>
     <nav class="nav1">
-        <h3>Вставьте текст для озвучки (DE):</h3>
+        <h3>Вставьте текст для озвучки:
+        <select id="comboSound" onchange="">
+            <option value="DE">DE</option>
+            <option value="EN">EN</option>
+        </select>
+        </h3>
         <div class="divnav2">
             <button onclick="speak(window.getSelection())">Озвучить выделенное</button>
             <button onclick="speakWithPause(window.getSelection())">Озвучить всё с паузами</button>
@@ -28,17 +33,20 @@
             <button onclick="split3()">Split... .</button>
             <button onclick="split4()">Improve text</button>
             <button onclick="clearP()">Clear cards</button>
-            <!-- <label for="myCombobox">Cards:</label>
-            <select id="myCombobox" onchange="">
-                <option value="var.1">var.1</option>
-                <option value="var.2">var.2</option>
-            </select> -->
         </div>
 
         <div class="div3">
             <textarea class="textarea2" name="w3review" rows="10" cols="60"></textarea>
-            <button onclick="">...</button>
-            <button onclick="">...</button>
+            <label for="comboDirection">Cards:</label>
+            <select id="comboDirection" onchange="">
+                <option value="direct">direct</option>
+                <option value="revers">revers</option>
+            </select>
+            <select id="myCombobox" onchange="">
+                <option value="var.1">var.1</option>
+                <option value="var.2">var.2</option>
+            </select>
+            <!-- <button onclick="">...</button> -->
         </div>
         
         <br>

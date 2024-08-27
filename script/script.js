@@ -17,7 +17,13 @@ document.addEventListener('DOMContentLoaded', function () {
 function speak(text) { 
     // Сам синтезатор
     const message = new SpeechSynthesisUtterance();
-    message.lang = "de-DE";
+    //message.lang = "de-DE";
+    const combobox = document.getElementById('comboSound').value;
+    if (combobox == 'DE') {
+        message.lang = "de-DE";
+    } else {
+        message.lang = "en-EN";
+    }
     message.text = text;
     window.speechSynthesis.speak(message)
 }
@@ -38,7 +44,6 @@ function speakWithPause(text) {
 
 function sleep(milliseconds) {
     const date = Date.now();
-    //console.log(date);
     let currentDate = null;
     do {
       currentDate = Date.now();
@@ -56,14 +61,11 @@ function highlightText(sentenceClass) {  //Обработчик - ondblclick
     selection.removeAllRanges();
     selection.addRange(range);
     speak(window.getSelection());
-
 }
 
 function splitt(arg) { //Разделяет текст на строки
     let textElement = document.querySelector(arg);
     let words = textElement.innerText.split('\n');
-    //alert('Split machen..')
-    //console.log(words);
     console.log(words[0]);
     //let textArea = document.querySelector('.w3review');
     for (let i=0; i<words.length; i++){
@@ -105,12 +107,6 @@ function split2() { //Разделяет текст на строки (\n)
 
     for (let i = 0; i < wordsF.length; i++){
         // console.log(wordsF[i] + '   ' + wordsB[i]);
-        // const combobox = document.getElementById('myCombobox').value;
-        // if (combobox == 'var.2') {
-        //     addCardsV2(wordsF[i], wordsB[i]);
-        // } else {
-        //     addCards(wordsF[i], wordsB[i]);
-        // }
         addCards(wordsF[i], wordsB[i]);
     }    
 } 
@@ -146,8 +142,8 @@ function split3() { //Разделяет текст на строки (.)
 function split4() { //Разделяет текст на строки (.)
     let textArea1 = document.querySelector('.textarea1');
     let wordsF = textArea1.value.replace(/\s+/g, ' ').split('.');
-    // let textArea2 = document.querySelector('.textarea2');
-    // let wordsB = textArea2.value.replace(/\s+/g, ' ').split('.');
+    let textArea2 = document.querySelector('.textarea2');
+    let wordsB = textArea2.value.replace(/\s+/g, ' ').split('.');
 
     //очищаем textarea1 & 2
     textArea1.value = '';
@@ -161,18 +157,13 @@ function split4() { //Разделяет текст на строки (.)
 // ==========================================================================
  
 function addP(nameSelector,newTxt,i){
-    //<p class="sentence1" ondblclick="highlightText('.sentence1')"></p>
-
     // Создание нового элемента <p>
     var newParagraph = document.createElement('p');
     //var newParagraph1 = document.createElement('p');
 
     // Добавление текста в новый элемент
-    //var textNode = document.createTextNode('Новый элемент добавлен с помощью JavaScript.');
     var textNode = document.createTextNode(newTxt);
-    //var textNode = document.createTextNode(newTxt + '  -  перевод');
     newParagraph.appendChild(textNode);
-    //newParagraph1.innerText = '..';
     // Уст.доп.атрибуты
     newParagraph.setAttribute('class','sent'+i);
     let attr = `highlightText('.sent${i}')`
@@ -215,11 +206,10 @@ let textArea = document.querySelector('.textarea1');
 let str = textArea.value.split('\n');
 
      for (let i=0; i<str.length; i++){
-         let words = str[i].split(' '); // разделяем на слова
-         //console.log(words.length);
+        // разделяем на слова
+         let words = str[i].split(' ');
          for (let y=0; y<words.length; y++){
              count++;
-            //console.log(words[y]);
             //обрабатываем каждое слово
             if (allWords.includes(words[y]) == false){
                 allWords.push(words[y]);
@@ -239,12 +229,21 @@ let str = textArea.value.split('\n');
 // ==========================================================================
 
 function addCards(textFront, textBack) {
+    //формирование карточек на экране
     const container = document.getElementById('card-container');
     
     const card = document.createElement('div');
-    card.className = 'card';
+
+    var combobox = document.getElementById('comboDirection').value;
+    if (combobox == 'revers') {
+        card.className = 'card flipped';
+    } else {
+        card.className = 'card';
+    }
+
     card.setAttribute('data-word', textFront);
     card.setAttribute('data-translation', textBack);
+    //cards var.1
     card.innerHTML = `
         <div class="front">
             <span>${textFront}</span>
@@ -256,7 +255,21 @@ function addCards(textFront, textBack) {
         </div>
     `;
     //<button class="speak" onclick="speak('${textBack}')">🔊</button>
-    
+
+    combobox = document.getElementById('myCombobox').value;
+    if (combobox == 'var.2') {
+        //cards var.2
+        card.innerHTML = `
+        <div class="card-content">
+            <span class="translation">${textBack}</span>
+            <span class="word">${textFront}</span>
+            <button class="speak" onclick="speak('${textFront}')">🔊</button>
+            <button class="close-btn">&times;</button>
+        </div>
+        `;
+    }
+
+    // Добавляем событие для переворота карточки
     card.addEventListener('click', function() {
         card.classList.toggle('flipped');
     });
@@ -275,34 +288,4 @@ function addCards(textFront, textBack) {
     });
 }
 
-// ==========================================================================
-function addCardsV2(textFront, textBack) {
-    // var.2.
-    const container = document.getElementById('card-container');
-    
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.setAttribute('data-word', textFront);
-    card.setAttribute('data-translation', textBack);
-    card.innerHTML = `
-        <div class="frontV2">
-            <span>${textBack}</span>
-            <br>
-            <span>${textFront}</span>
-            <button class="speak" onclick="speak('${textFront}')">🔊</button>
-        </div>
-    `;
-    card.addEventListener('click', function() {
-        card.classList.toggle('flipped');
-    });
-    
-    container.appendChild(card);
-    //<button class="speak" onclick="speak('${textBack}')">🔊</button>
-
-    // Добавление обработчика события click для кнопки speak
-    const speakButton = card.querySelector('.speak');
-    speakButton.addEventListener('click', function(event) {
-        event.stopPropagation(); // предотвращает всплытие события click
-    });
-}
 // ==========================================================================
